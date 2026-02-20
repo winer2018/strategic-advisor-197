@@ -8,12 +8,11 @@ export default function HomePage() {
   const [result, setResult] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
 
-  // Гарантираме, че React е заредил в браузъра преди да покаже каквото и да е
   useEffect(() => {
     setMounted(true)
   }, [])
 
-  if (!mounted) return <div style={{ background: '#050505', minHeight: '100vh' }} />
+  if (!mounted) return null
 
   const runAudit = async () => {
     if (!input.trim()) return
@@ -36,16 +35,16 @@ export default function HomePage() {
   }
 
   return (
-    <div style={{ backgroundColor: '#050505', minHeight: '100vh', color: 'white', fontFamily: 'monospace', padding: '40px' }}>
-      <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-        <h1 style={{ fontSize: '28px', textAlign: 'center', marginBottom: '40px', color: '#fff' }}>
+    <div style={{ color: 'white', fontFamily: 'monospace', padding: '40px' }}>
+      <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}>
+        <h1 style={{ fontSize: '32px', marginBottom: '40px', textTransform: 'uppercase' }}>
           ПАКЕТ 197: STRATEGIC ADVISOR
         </h1>
 
         <textarea
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="ВЪВЕДЕТЕ КАЗУС..."
+          placeholder="ОПИШЕТЕ КАЗУСА ТУК..."
           style={{ 
             width: '100%', height: '200px', backgroundColor: '#0a0a0a', border: '1px solid #333', 
             borderRadius: '8px', padding: '20px', color: '#00FF41', fontSize: '16px', marginBottom: '20px',
@@ -65,7 +64,8 @@ export default function HomePage() {
         </button>
 
         {result && (
-          <div style={{ marginTop: '40px', padding: '30px', borderLeft: '4px solid #00FF41', backgroundColor: '#0a0a0a' }}>
+          <div style={{ marginTop: '40px', padding: '30px', borderLeft: '4px solid #00FF41', backgroundColor: '#0a0a0a', textAlign: 'left' }}>
+            <div style={{ color: '#00FF41', fontSize: '12px', marginBottom: '10px' }}>// РЕЗУЛТАТ:</div>
             <p style={{ fontSize: '18px', lineHeight: '1.6', color: '#ccc', whiteSpace: 'pre-line' }}>{result}</p>
           </div>
         )}
