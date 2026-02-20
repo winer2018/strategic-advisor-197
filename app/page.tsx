@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { Search, Loader2, Trash2, Shield } from 'lucide-react'
+import { Search, Loader2, Trash2, Shield, TrendingUp, AlertTriangle } from 'lucide-react'
 
 export default function HomePage() {
   const [mounted, setMounted] = useState(false)
@@ -36,58 +36,59 @@ export default function HomePage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#050505] text-white font-mono p-6 md:p-12">
-      <div className="max-w-4xl mx-auto">
+    <main style={{ backgroundColor: '#050505', minHeight: '100vh', color: 'white', fontFamily: 'monospace', padding: '60px 20px' }}>
+      <div style={{ maxWidth: '900px', margin: '0 auto' }}>
         
-        {/* HEADER ИЗГЛЕД ОТ 47 */}
-        <div className="mb-12 text-center">
-          <h1 className="text-4xl md:text-6xl font-black tracking-tighter mb-2 bg-gradient-to-b from-white to-gray-500 bg-clip-text text-transparent italic uppercase">
+        {/* HEADER ОТ 47 */}
+        <div style={{ textAlign: 'center', marginBottom: '60px' }}>
+          <h1 style={{ fontSize: '48px', fontWeight: '900', letterSpacing: '-2px', marginBottom: '10px', fontStyle: 'italic', background: 'linear-gradient(to bottom, #fff, #666)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', textTransform: 'uppercase' }}>
             ПАКЕТ 197: STRATEGIC ADVISOR
           </h1>
-          <div className="text-green-500 text-xs tracking-[0.4em] font-bold uppercase">Sovereign Architecture Analysis</div>
+          <div style={{ color: '#00FF41', fontSize: '10px', fontWeight: 'bold', letterSpacing: '4px', textTransform: 'uppercase' }}>Sovereign Architecture Analysis</div>
         </div>
 
         {/* INPUT AREA С ЕФЕКТИТЕ НА 47 */}
-        <div className="relative group mb-6">
-          <div className="absolute -inset-1 bg-gradient-to-r from-green-500/10 to-transparent rounded-xl blur opacity-25"></div>
-          <div className="relative bg-[#0a0a0a] border border-white/10 rounded-xl overflow-hidden shadow-2xl">
+        <div style={{ position: 'relative', marginBottom: '30px' }}>
+          <div style={{ background: '#0a0a0a', border: '1px solid #333', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)' }}>
             <textarea
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="ВЪВЕДЕТЕ КАЗУС ЗА АНАЛИЗ (ROI, БИЗНЕС ЛОГИКА, АКТИВИ)..."
-              className="w-full h-64 bg-transparent p-8 text-green-50 focus:outline-none resize-none placeholder:text-white/5 text-lg leading-relaxed font-bold"
+              style={{ width: '100%', height: '280px', background: 'transparent', border: 'none', padding: '30px', color: '#00FF41', fontSize: '18px', outline: 'none', resize: 'none', lineHeight: '1.6', fontWeight: 'bold' }}
             />
           </div>
         </div>
 
         {/* БУТОНИТЕ ОТ 47 */}
-        <div className="flex flex-col sm:flex-row gap-4 mb-12">
+        <div style={{ display: 'flex', gap: '20px', marginBottom: '60px' }}>
           <button
             onClick={runAudit}
             disabled={loading || !input.trim()}
-            className="flex-[3] h-16 bg-white text-black font-black uppercase tracking-widest text-sm hover:bg-green-500 transition-all duration-300 disabled:opacity-50 flex items-center justify-center gap-3"
+            style={{ flex: 3, height: '70px', background: 'white', color: 'black', border: 'none', borderRadius: '4px', fontWeight: '900', fontSize: '18px', letterSpacing: '2px', cursor: 'pointer', opacity: (loading || !input.trim()) ? 0.5 : 1, textTransform: 'uppercase', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', transition: '0.3s' }}
           >
-            {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <><Search className="w-5 h-5" /> СТАРТИРАЙ СКАНИРАНЕ</>}
+            {loading ? <Loader2 size={24} className="animate-spin" /> : <><Search size={24} /> СТАРТИРАЙ СКАНИРАНЕ</>}
           </button>
           
           <button
             onClick={() => { setInput(''); setResult(null); }}
-            className="flex-1 h-16 border border-white/10 hover:border-red-500/50 hover:text-red-500 transition-all duration-300 flex items-center justify-center gap-2 uppercase font-bold text-xs"
+            style={{ flex: 1, height: '70px', background: 'transparent', border: '1px solid #333', color: '#666', borderRadius: '4px', fontWeight: '900', fontSize: '14px', letterSpacing: '1px', cursor: 'pointer', textTransform: 'uppercase', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
           >
-            <Trash2 className="w-4 h-4" /> ИЗЧИСТИ
+            <Trash2 size={20} /> ИЗЧИСТИ
           </button>
         </div>
 
-        {/* РЕЗУЛТАТЪТ СЪС СТИЛА НА 197 */}
+        {/* РЕЗУЛТАТЪТ */}
         {result && (
-          <div className="animate-in fade-in zoom-in-95 duration-500">
-            <div className="border-l-4 border-green-500 pl-8 py-6 bg-green-500/5 rounded-r-xl">
-              <div className="flex items-center gap-2 mb-4 text-green-500 text-[10px] font-bold uppercase tracking-widest">
-                <Shield className="w-4 h-4" /> Стратегически Резултат 197
-              </div>
-              <p className="text-gray-100 text-xl leading-relaxed whitespace-pre-line italic font-medium">
-                {result}
-              </p>
+          <div style={{ borderLeft: '4px solid #00FF41', padding: '40px', background: 'rgba(0, 255, 65, 0.05)', borderRadius: '0 12px 12px 0' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#00FF41', fontSize: '10px', fontWeight: 'bold', marginBottom: '20px', letterSpacing: '2px', textTransform: 'uppercase' }}>
+              <Shield size={16} /> СТРАТЕГИЧЕСКИ РЕЗУЛТАТ 197
+            </div>
+            <p style={{ fontSize: '20px', lineHeight: '1.8', color: '#eee', whiteSpace: 'pre-line', fontStyle: 'italic' }}>
+              {result}
+            </p>
+            <div style={{ marginTop: '30px', paddingTop: '20px', borderTop: '1px solid #333', display: 'flex', gap: '20px' }}>
+                <div style={{ color: '#555', fontSize: '10px', display: 'flex', alignItems: 'center', gap: '5px' }}><TrendingUp size={12} /> ROI OPTIMIZED</div>
+                <div style={{ color: '#555', fontSize: '10px', display: 'flex', alignItems: 'center', gap: '5px' }}><AlertTriangle size={12} /> STRESS TESTED</div>
             </div>
           </div>
         )}
