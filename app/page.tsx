@@ -31,11 +31,11 @@ export default function Home() {
 
   const handleClear = () => {
     setMessages([]);
-    setInput('');
     setStarted(false);
     setBusinessName('');
     setIndustry('');
     setRevenue('');
+    window.location.reload();
   };
 
   return (
