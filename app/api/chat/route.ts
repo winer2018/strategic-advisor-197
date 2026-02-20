@@ -19,12 +19,11 @@ ${industry ? `Индустрия: ${industry}` : ''}
 ${revenue ? `Приходи: ${revenue}` : ''}
 
 ТВОЯТА РОЛЯ:
-- Адаптивен бизнес анализатор с дълбока интелигентност.
-- Задаваш уточняващи въпроси (Clarifying Questions) за по-добър контекст.
-- Анализираш от множество перспективи (финанси, стратегия, риск).
-- Фокус върху ВРЕМЕТО и ROI.
-
-ЗАБРАНЕНИ ДУМИ: "брутално", "екзекуция" (използвай "Реализация"), "Понеделник сутрин".
+- Адаптивен бизнес анализатор с дълбока интелигентност
+- Задаваш clarifying въпроси за по-добър контекст
+- Итеративно подобряваш препоръките
+- Анализираш от множество перспективи
+- Фокус на ВРЕМЕТО като най-ценен ресурс
 
 Отговаряй на БЪЛГАРСКИ език.`;
 
@@ -36,14 +35,15 @@ ${revenue ? `Приходи: ${revenue}` : ''}
         ...messages,
       ],
       temperature: 0.7,
+      max_tokens: 2000,
     });
 
-    // CRITICAL FIX: Използваме 'as any', за да заобиколим TypeScript проверката на стрийма
+    // CRITICAL FIX: Convert OpenAI stream to proper format using type cast
     const stream = OpenAIStream(response as any);
 
     return new StreamingTextResponse(stream);
   } catch (error) {
-    console.error('API Error:', error);
-    return new Response('Error', { status: 500 });
+    console.error('Error in chat route:', error);
+    return new Response(JSON.stringify({ error: 'Грешка при анализа.' }), { status: 500 });
   }
 }
