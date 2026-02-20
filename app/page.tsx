@@ -16,13 +16,6 @@ export default function HomePage() {
   const [mounted, setMounted] = useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
-    setMounted(true)
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight
-    }
-  }, [st, bn, messages])
-
   const { 
     messages, 
     input, 
@@ -33,6 +26,13 @@ export default function HomePage() {
     api: '/api/chat',
     body: { businessName: bn, industry: ind },
   })
+
+  useEffect(() => {
+    setMounted(true)
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight
+    }
+  }, [st, bn, messages])
 
   const onExecute = (e: React.FormEvent) => {
     e.preventDefault()
@@ -94,7 +94,7 @@ export default function HomePage() {
             </div>
           ))}
           {isLoading && (
-            <div className="max-w-6xl mx-auto flex items-center gap-6 text-green-500 p-12 animate-pulse border border-green-500/10 bg-green-500/5">
+            <div className="max-w-6xl mx-auto flex items-center gap-6 text-green-500 p-12 animate-pulse border border-green-500/10 bg-green-500/5 shadow-[0_0_30px_rgba(34,197,94,0.05)]">
               <div className="w-4 h-4 border-2 border-green-500 border-t-transparent rounded-full animate-spin" />
               <span className="text-xs tracking-[1.2em] font-black italic uppercase">Scanning_Logic_Architecture...</span>
             </div>
@@ -108,7 +108,7 @@ export default function HomePage() {
                 <textarea value={input} onChange={handleInputChange} placeholder="ВЪВЕДЕТЕ КАЗУС ЗА АНАЛИЗ (ROI, БИЗНЕС ЛОГИКА, АКТИВИ)..." className="w-full h-44 bg-transparent p-8 text-2xl text-green-50 focus:outline-none resize-none placeholder:text-white/5 font-bold leading-tight tracking-tight uppercase" />
               </div>
               <div className="flex flex-col sm:flex-row gap-6">
-                <button type="submit" disabled={isLoading || (!st && !bn)} className="flex-1 h-20 bg-white text-black font-black tracking-[0.6em] text-lg hover:bg-green-500 transition-all duration-500 disabled:opacity-5 flex items-center justify-center gap-6 group relative overflow-hidden shadow-[0_0_40px_rgba(255,255,255,0.1)]">
+                <button type="submit" disabled={isLoading || (!st && !bn)} className="flex-1 h-20 bg-white text-black font-black uppercase tracking-[0.6em] text-lg hover:bg-green-500 transition-all duration-500 disabled:opacity-5 flex items-center justify-center gap-6 group relative overflow-hidden shadow-[0_0_40px_rgba(255,255,255,0.1)]">
                   <span className="relative z-10 flex items-center gap-6 uppercase tracking-[0.2em]">{isLoading ? 'PROCESSING...' : 'EXECUTE_STRATEGIC_SCAN'}</span>
                   <div className="absolute inset-0 bg-green-500 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
                 </button>
