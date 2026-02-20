@@ -1,3 +1,10 @@
+import './globals.css'
+
+export const metadata = {
+  title: 'ПАКЕТ 197: STRATEGIC ADVISOR',
+  description: 'Sovereign Architecture Analysis',
+}
+
 export default function RootLayout({
   children,
 }: {
@@ -5,9 +12,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="bg">
-      <body style={{ margin: 0, padding: 0, backgroundColor: '#050505' }}>
-        {children}
-      </body>
+      <body className="antialiased">{children}</body>
     </html>
   )
 }
