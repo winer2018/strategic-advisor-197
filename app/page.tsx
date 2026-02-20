@@ -25,115 +25,110 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-[#00FF41] font-mono p-4 md:p-6 selection:bg-[#00FF41]/20">
-      <div className="max-w-[1600px] mx-auto border border-[#00FF41]/20 min-h-[90vh] flex flex-col">
-        
-        {/* TOP BAR / SYSTEM INFO */}
-        <div className="border-b border-[#00FF41]/20 p-4 flex justify-between items-center text-[10px] tracking-widest uppercase">
-          <div className="flex gap-6">
-            <span className="font-bold">SYSTEM: STRATEGIC_ADVISOR_197</span>
-            <span className="hidden md:inline text-gray-600">// CORE: v4.0.2</span>
+    <div className="min-h-screen bg-black text-[#00FF41] font-mono flex flex-col selection:bg-[#00FF41]/20">
+      
+      {/* SYSTEM HEADER */}
+      <div className="border-b border-[#00FF41]/30 p-4 flex justify-between items-center text-[10px] bg-black sticky top-0 z-50">
+        <div className="flex gap-8 items-center">
+          <span className="font-black tracking-[0.3em]">SYSTEM: STRATEGIC_ADVISOR_197</span>
+          <span className="text-emerald-900 hidden md:block">| LOG_ID: 2026-SA197-X</span>
+        </div>
+        <div className="flex items-center gap-3">
+          <span className="animate-pulse underline uppercase">Active_Link_Established</span>
+          <div className="w-2 h-2 bg-[#00FF41] shadow-[0_0_8px_#00FF41]"></div>
+        </div>
+      </div>
+
+      {/* INPUTS SECTION (Collapsible) */}
+      {!started && (
+        <div className="border-b border-[#00FF41]/20 grid grid-cols-1 md:grid-cols-2 bg-[#00FF41]/5">
+          <div className="p-8 border-r border-[#00FF41]/20">
+            <span className="text-[9px] block mb-2 opacity-50 uppercase tracking-widest">/ IDENTIFY_ENTITY</span>
+            <input 
+              type="text" 
+              value={businessName} 
+              onChange={(e) => setBusinessName(e.target.value)} 
+              className="w-full bg-transparent border-none p-0 text-3xl uppercase focus:ring-0 outline-none text-[#00FF41] placeholder:text-emerald-950 font-black" 
+              placeholder="ENTER_NAME" 
+            />
           </div>
-          <div className="flex gap-4 items-center">
-            <span className="text-gray-600">2026_LOG_ACTIVE</span>
-            <span className="w-2 h-2 bg-[#00FF41] animate-pulse"></span>
+          <div className="p-8">
+            <span className="text-[9px] block mb-2 opacity-50 uppercase tracking-widest">/ SECTOR_IDENTIFICATION</span>
+            <input 
+              type="text" 
+              value={industry} 
+              onChange={(e) => setIndustry(e.target.value)} 
+              className="w-full bg-transparent border-none p-0 text-3xl uppercase focus:ring-0 outline-none text-[#00FF41] placeholder:text-emerald-950 font-black" 
+              placeholder="ENTER_SECTOR" 
+            />
           </div>
         </div>
+      )}
 
-        {/* IDENTITY SCANNER (Inputs) */}
-        {!started ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-0 border-b border-[#00FF41]/20 bg-emerald-950/5">
-            <div className="p-6 border-r border-[#00FF41]/20 group">
-              <span className="text-[10px] block mb-2 opacity-50 tracking-widest uppercase">/ INPUT_BUSINESS_NAME</span>
-              <input 
-                type="text" 
-                value={businessName} 
-                onChange={(e) => setBusinessName(e.target.value)} 
-                className="w-full bg-transparent border-none p-0 text-2xl uppercase focus:ring-0 outline-none text-[#00FF41] placeholder:text-emerald-900" 
-                placeholder="ENTER_NAME..." 
-              />
-            </div>
-            <div className="p-6 group">
-              <span className="text-[10px] block mb-2 opacity-50 tracking-widest uppercase">/ INPUT_INDUSTRY_SECTOR</span>
-              <input 
-                type="text" 
-                value={industry} 
-                onChange={(e) => setIndustry(e.target.value)} 
-                className="w-full bg-transparent border-none p-0 text-2xl uppercase focus:ring-0 outline-none text-[#00FF41] placeholder:text-emerald-900" 
-                placeholder="ENTER_SECTOR..." 
-              />
-            </div>
-          </div>
-        ) : (
-          <div className="p-3 bg-[#00FF41]/5 border-b border-[#00FF41]/20 px-6 flex justify-between items-center text-[10px]">
-            <span className="font-bold">ACTIVE_LOG // {businessName.toUpperCase()} // {industry.toUpperCase()}</span>
-            <span className="text-gray-500 uppercase">Architecture_Layer_Locked</span>
+      {/* CHAT / ANALYSIS LOG AREA */}
+      <div className="flex-1 p-6 md:p-12 space-y-12 overflow-y-auto bg-black scrollbar-hide mb-40">
+        {messages.length === 0 && !started && (
+          <div className="h-full flex flex-col items-center justify-center opacity-10 uppercase tracking-[1.5em] mt-20">
+            <p className="text-6xl font-black mb-4">Scanner_Ready</p>
+            <p className="text-xs">Proprietary Sovereign Architecture</p>
           </div>
         )}
-
-        {/* DATA ANALYSIS AREA (Chat) */}
-        <div className="flex-1 overflow-y-auto p-6 space-y-8 bg-black/40 scrollbar-hide">
-          {messages.length === 0 && !started && (
-            <div className="h-full flex flex-col items-center justify-center opacity-20 uppercase tracking-[1em] text-center">
-              <p className="text-4xl font-black mb-4">Scanner_Ready</p>
-              <p className="text-[10px]">Waiting for tactical input...</p>
-            </div>
-          )}
-          {messages.map(m => (
-            <div key={m.id} className="animate-in fade-in slide-in-from-left duration-300">
-              <div className={`p-6 border ${m.role === 'user' ? 'border-gray-800 bg-gray-900/10' : 'border-[#00FF41]/30 bg-[#00FF41]/5'}`}>
-                <div className="flex justify-between items-center mb-4 border-b border-[#00FF41]/10 pb-2">
-                  <span className="text-[10px] font-bold tracking-widest uppercase">
-                    {m.role === 'user' ? '> ACCESS_REQUEST' : '> ADVISOR_STRATEGY'}
-                  </span>
-                  <span className="text-[9px] opacity-30 font-mono italic">Timestamp: {new Date().toLocaleTimeString()}</span>
-                </div>
-                <p className="text-lg leading-relaxed whitespace-pre-wrap font-light">{m.content}</p>
+        
+        {messages.map(m => (
+          <div key={m.id} className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div className={`p-8 border ${m.role === 'user' ? 'border-gray-900 bg-zinc-950/50' : 'border-[#00FF41]/20 bg-[#00FF41]/5'}`}>
+              <div className="flex justify-between items-center mb-6 border-b border-[#00FF41]/10 pb-4">
+                <span className="text-[10px] font-black tracking-[0.4em] uppercase">
+                  {m.role === 'user' ? '> TACTICAL_QUERY' : '> STRATEGIC_ANALYSIS'}
+                </span>
+                <span className="text-[9px] opacity-30 italic font-mono uppercase">Decrypted: {new Date().toLocaleTimeString()}</span>
               </div>
+              <p className="text-xl leading-relaxed whitespace-pre-wrap font-light tracking-tight">{m.content}</p>
             </div>
-          ))}
-          {isLoading && (
-            <div className="flex items-center gap-4 p-6 border border-[#00FF41]/20 bg-[#00FF41]/5">
-              <span className="w-2 h-2 bg-[#00FF41] animate-ping"></span>
-              <span className="text-xs uppercase tracking-[0.5em] animate-pulse">Processing_Neural_Logic...</span>
-            </div>
-          )}
-        </div>
+          </div>
+        ))}
+        {isLoading && (
+          <div className="p-8 border border-[#00FF41]/10 bg-[#00FF41]/5 inline-block w-full">
+            <span className="text-xs uppercase tracking-[0.8em] animate-pulse">Running_Neural_Logic_Scans...</span>
+          </div>
+        )}
+      </div>
 
-        {/* TACTICAL INPUT (Textarea) */}
-        <form onSubmit={onSubmit} className="border-t border-[#00FF41]/20 p-0 bg-black">
+      {/* FOOTER / TACTICAL INPUT AREA */}
+      <div className="fixed bottom-0 left-0 right-0 bg-black border-t border-[#00FF41]/30">
+        <form onSubmit={onSubmit}>
           <textarea 
             value={input} 
             onChange={handleInputChange} 
-            className="w-full bg-black p-8 text-xl outline-none min-h-[300px] border-none focus:ring-0 text-[#00FF41] placeholder:text-emerald-950 resize-none font-light" 
-            placeholder="[ ENTER_TACTICAL_DATA_HERE ]" 
+            className="w-full bg-black p-8 text-xl outline-none min-h-[180px] border-none focus:ring-0 text-[#00FF41] placeholder:text-emerald-950 resize-none font-medium" 
+            placeholder="[ ENTER_STRATEGIC_INPUT_HERE ]" 
           />
-          <div className="border-t border-[#00FF41]/10 p-4 flex flex-col md:flex-row gap-4 items-center bg-black">
-            <div className="text-[9px] opacity-30 flex gap-4 uppercase tracking-widest flex-1">
-              <span>Memory: Optimized</span>
-              <span>Encryption: Sovereign</span>
-              <span>Layer: Strategy</span>
+          <div className="p-4 border-t border-[#00FF41]/10 flex justify-between items-center bg-black">
+            <div className="text-[9px] opacity-20 hidden md:flex gap-8 uppercase tracking-widest font-bold">
+              <span>Sovereign_Protocol: ON</span>
+              <span>Data_Encryption: 256bit</span>
+              <span>ROI_Matrix: Active</span>
             </div>
-            <div className="flex gap-4 w-full md:w-auto">
+            <div className="flex gap-6 w-full md:w-auto">
               <button 
                 type="button" 
                 onClick={handleClear} 
-                className="px-8 py-3 border border-[#00FF41]/20 text-[#00FF41]/40 hover:text-[#00FF41] hover:border-[#00FF41] transition-all text-xs uppercase font-bold tracking-widest"
+                className="px-8 py-3 border border-[#00FF41]/20 text-emerald-900 hover:text-[#00FF41] hover:border-[#00FF41] transition-all text-xs uppercase font-black"
               >
-                Reset
+                Clear
               </button>
               <button 
                 type="submit" 
                 disabled={isLoading || (!started && !businessName)} 
-                className="flex-1 md:flex-none bg-[#00FF41] text-black font-black px-16 py-3 hover:bg-[#00FF41]/80 transition-all text-xs uppercase tracking-[0.3em] shadow-[0_0_20px_rgba(0,255,65,0.2)]"
+                className="flex-1 md:flex-none bg-[#00FF41] text-black font-black px-20 py-3 hover:bg-white transition-all text-xs uppercase tracking-[0.4em] shadow-[0_0_25px_rgba(0,255,65,0.3)]"
               >
-                {isLoading ? 'ANALYZING...' : 'EXECUTE'}
+                {isLoading ? 'ANALYZING' : 'EXECUTE'}
               </button>
             </div>
           </div>
         </form>
-
       </div>
+
     </div>
   );
 }
