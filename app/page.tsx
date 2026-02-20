@@ -11,7 +11,7 @@ export default function HomePage() {
 
   const runAudit = async () => {
     if (input.trim().length < 5) {
-      setError('Опишете казуса по-конкретно.')
+      setError('ОПИШЕТЕ КАЗУСА ПО-ПОДРОБНО.')
       return
     }
 
@@ -29,9 +29,9 @@ export default function HomePage() {
       const data = await response.json()
       if (data.error) throw new Error(data.error)
       
-      setResult(data.content || data.result)
+      setResult(data.content || 'ГРЕШКА В ОТГОВОРА.')
     } catch (err: any) {
-      setError('Критична грешка в логическия мост. Проверете API ключа.')
+      setError('КРИТИЧНА ГРЕШКА: ПРОВЕРЕТЕ API МОСТА.')
     } finally {
       setLoading(false)
     }
@@ -47,7 +47,6 @@ export default function HomePage() {
     <main className="min-h-screen bg-[#050505] text-white font-mono selection:bg-green-500/30">
       <div className="max-w-4xl mx-auto px-6 py-12">
         
-        {/* HEADER */}
         <div className="mb-12 text-center">
           <h1 className="text-4xl md:text-5xl font-black tracking-tighter mb-2 bg-gradient-to-b from-white to-gray-500 bg-clip-text text-transparent italic">
             ПАКЕТ 197: STRATEGIC ADVISOR
@@ -55,7 +54,6 @@ export default function HomePage() {
           <div className="text-green-500 text-xs tracking-[0.3em] font-bold uppercase">Sovereign Architecture Analysis</div>
         </div>
 
-        {/* INPUT AREA */}
         <div className="relative bg-[#0a0a0a] border border-white/10 rounded-xl overflow-hidden mb-6 shadow-2xl">
           <textarea
             value={input}
@@ -65,7 +63,6 @@ export default function HomePage() {
           />
         </div>
 
-        {/* ACTIONS */}
         <div className="flex flex-col sm:flex-row gap-4 mb-12">
           <button
             onClick={runAudit}
@@ -83,14 +80,12 @@ export default function HomePage() {
           </button>
         </div>
 
-        {/* ERROR DISPLAY */}
         {error && (
           <div className="mb-8 p-4 border-l-4 border-red-600 bg-red-600/5 text-red-500 text-sm">
             {error}
           </div>
         )}
 
-        {/* RESULT OUTPUT */}
         {result && (
           <div className="animate-in fade-in zoom-in-95 duration-500">
             <div className="border-l-4 border-green-500 pl-8 py-4 bg-green-500/5 rounded-r-xl">
