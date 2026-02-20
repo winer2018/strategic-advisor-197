@@ -32,15 +32,15 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white flex flex-col items-center justify-center p-8 font-mono">
-      <div className="text-center mb-10">
+    <div className="min-h-screen bg-[#0a0a0a] text-white flex flex-col items-center justify-center p-8 font-mono text-center">
+      <div className="mb-10">
         <h1 className="text-4xl font-bold tracking-tighter uppercase">
           ПАКЕТ 197: <span className="text-emerald-400 italic text-5xl">STRATEGIC ADVISOR</span>
         </h1>
         <p className="text-gray-500 text-[10px] tracking-[0.5em] mt-2 uppercase">Sovereign Architecture Analysis Layer</p>
       </div>
 
-      <div className="w-full max-w-4xl bg-[#111] border border-gray-800 rounded shadow-2xl overflow-hidden">
+      <div className="w-full max-w-4xl bg-[#111] border border-gray-800 rounded shadow-2xl overflow-hidden text-left">
         {!started ? (
           <div className="p-8 space-y-6 border-b border-gray-800">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -56,7 +56,7 @@ export default function Home() {
           </div>
         ) : (
           <div className="p-4 bg-emerald-500/5 border-b border-gray-800 text-[10px] text-emerald-400 flex justify-between px-8 items-center">
-            <span className="font-bold tracking-widest">ACTIVE SESSION: {businessName.toUpperCase()} | {industry.toUpperCase()}</span>
+            <span className="font-bold tracking-widest uppercase text-left">ACTIVE SESSION: {businessName.toUpperCase()} | {industry.toUpperCase()}</span>
             <span className="animate-pulse flex items-center gap-2">● ADAPTIVE LAYER LIVE</span>
           </div>
         )}
@@ -69,20 +69,20 @@ export default function Home() {
           )}
           {messages.map(m => (
             <div key={m.id} className={`border-l-2 p-4 ${m.role === 'user' ? 'border-gray-700 bg-white/5' : 'border-emerald-500 bg-emerald-500/5'}`}>
-              <span className="text-[9px] font-bold text-emerald-400 mb-2 block tracking-widest uppercase italic">
+              <span className="text-[9px] font-bold text-emerald-400 mb-2 block tracking-widest uppercase italic text-left">
                 {m.role === 'user' ? '> ЗАПИТВАНЕ' : '> АНАЛИЗ СТРАТЕГ'}
               </span>
-              <p className="text-gray-300 leading-relaxed whitespace-pre-wrap">{m.content}</p>
+              <p className="text-gray-300 leading-relaxed whitespace-pre-wrap text-left">{m.content}</p>
             </div>
           ))}
-          {isLoading && <div className="animate-pulse text-emerald-400 text-[10px] uppercase tracking-[0.3em]">Processing Logic...</div>}
+          {isLoading && <div className="animate-pulse text-emerald-400 text-[10px] uppercase tracking-[0.3em] text-left">Processing Logic...</div>}
         </div>
 
         <form onSubmit={onSubmit} className="p-8 bg-black/40">
           <textarea 
             value={input} 
             onChange={handleInputChange} 
-            className="w-full bg-black border border-gray-800 p-4 rounded text-white mb-6 focus:border-emerald-500 outline-none min-h-[100px] text-xs transition-all" 
+            className="w-full bg-black border border-gray-800 p-4 rounded text-white mb-6 focus:border-emerald-500 outline-none min-h-[100px] text-xs transition-all text-left" 
             placeholder="Опишете вашия казус за анализ..." 
           />
           <div className="flex flex-col md:flex-row gap-4">
