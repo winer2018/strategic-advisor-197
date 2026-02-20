@@ -20,110 +20,105 @@ export default function Home() {
     handleSubmit(e);
   };
 
-  // Използваме презареждане на страницата за изчистване - 100% безопасно за билда
-  const handleReset = () => {
-    window.location.reload();
-  };
-
   return (
-    <div className="min-h-screen bg-black text-[#00FF41] font-mono flex flex-col selection:bg-[#00FF41]/20">
+    <div className="min-h-screen bg-black text-[#00FF41] font-mono flex flex-col selection:bg-[#00FF41]/30">
       
       {/* SCANNER HEADER */}
       <div className="border-b border-[#00FF41]/30 p-4 flex justify-between items-center text-[10px] bg-black sticky top-0 z-50">
-        <div className="flex gap-8 items-center">
-          <span className="font-black tracking-[0.3em]">PROJECT_47_SCANNER_V197</span>
-          <span className="text-emerald-950 hidden md:block">| STATUS: ENCRYPTED_LINK</span>
+        <div className="flex gap-10 items-center">
+          <span className="font-black tracking-[0.4em] text-sm">SA_197_SCANNER</span>
+          <span className="text-emerald-950 hidden md:block uppercase tracking-[0.2em]">Sovereign_Architecture_Active</span>
         </div>
-        <div className="flex items-center gap-3 text-emerald-400">
-          <span className="uppercase tracking-widest text-[9px]">Uptime: 99.9%</span>
+        <div className="flex items-center gap-4">
+          <span className="text-emerald-400 uppercase text-[9px] tracking-widest">Uptime: 100%</span>
           <div className="w-2 h-2 bg-[#00FF41] shadow-[0_0_10px_#00FF41] animate-pulse"></div>
         </div>
       </div>
 
-      {/* TACTICAL INPUTS */}
+      {/* TACTICAL INPUTS (TOP) */}
       {!started && (
-        <div className="border-b border-[#00FF41]/20 grid grid-cols-1 md:grid-cols-2 bg-[#00FF41]/5 animate-in fade-in duration-500">
-          <div className="p-10 border-r border-[#00FF41]/20">
-            <span className="text-[9px] block mb-4 opacity-40 uppercase tracking-[0.3em]">/ SOURCE_ENTITY</span>
+        <div className="border-b border-[#00FF41]/20 grid grid-cols-1 md:grid-cols-2 bg-[#00FF41]/5">
+          <div className="p-12 border-r border-[#00FF41]/20">
+            <span className="text-[10px] block mb-4 opacity-40 uppercase tracking-[0.3em]">/ SOURCE_ENTITY_NAME</span>
             <input 
               type="text" 
               value={businessName} 
               onChange={(e) => setBusinessName(e.target.value)} 
-              className="w-full bg-transparent border-none p-0 text-4xl uppercase focus:ring-0 outline-none text-[#00FF41] placeholder:text-emerald-950 font-black tracking-tighter" 
+              className="w-full bg-transparent border-none p-0 text-5xl uppercase focus:ring-0 outline-none text-[#00FF41] placeholder:text-emerald-950 font-black tracking-tighter" 
               placeholder="NAME_REQUIRED" 
             />
           </div>
-          <div className="p-10">
-            <span className="text-[9px] block mb-4 opacity-40 uppercase tracking-[0.3em]">/ SECTOR_IDENT</span>
+          <div className="p-12">
+            <span className="text-[10px] block mb-4 opacity-40 uppercase tracking-[0.3em]">/ SECTOR_IDENTIFICATION</span>
             <input 
               type="text" 
               value={industry} 
               onChange={(e) => setIndustry(e.target.value)} 
-              className="w-full bg-transparent border-none p-0 text-4xl uppercase focus:ring-0 outline-none text-[#00FF41] placeholder:text-emerald-950 font-black tracking-tighter" 
-              placeholder="INDUSTRY_REQUIRED" 
+              className="w-full bg-transparent border-none p-0 text-5xl uppercase focus:ring-0 outline-none text-[#00FF41] placeholder:text-emerald-950 font-black tracking-tighter" 
+              placeholder="SECTOR_REQUIRED" 
             />
           </div>
         </div>
       )}
 
-      {/* DATA FLOW (LOG) */}
-      <div className="flex-1 p-6 md:p-16 space-y-16 overflow-y-auto bg-black scrollbar-hide pb-96">
+      {/* ANALYSIS STREAM (LOG) */}
+      <div className="flex-1 p-8 md:p-20 space-y-20 overflow-y-auto bg-black pb-[400px]">
         {messages.length === 0 && !started && (
           <div className="h-full flex flex-col items-center justify-center opacity-10 uppercase tracking-[2em] mt-32 select-none">
-            <p className="text-7xl font-black mb-6 italic">Scanner</p>
-            <p className="text-sm">Initiate Protocol 197</p>
+            <p className="text-8xl font-black mb-8 italic">Scanner</p>
+            <p className="text-sm">Initiating Sovereign Protocol 197...</p>
           </div>
         )}
         
         {messages.map(m => (
           <div key={m.id} className="animate-in slide-in-from-left-8 duration-500">
-            <div className={`p-10 border-l-2 ${m.role === 'user' ? 'border-gray-800 bg-zinc-950/30' : 'border-[#00FF41] bg-[#00FF41]/5 shadow-[inset_0_0_30px_rgba(0,255,65,0.03)]'}`}>
-              <div className="flex justify-between items-center mb-8 opacity-40 border-b border-[#00FF41]/10 pb-4">
+            <div className={`p-12 border-l-4 ${m.role === 'user' ? 'border-gray-800 bg-zinc-950/30' : 'border-[#00FF41] bg-[#00FF41]/5'}`}>
+              <div className="flex justify-between items-center mb-8 opacity-30 border-b border-[#00FF41]/10 pb-4">
                 <span className="text-[10px] font-black tracking-[0.5em] uppercase">
-                  {m.role === 'user' ? '// TACTICAL_INPUT' : '// ADVISOR_RESPONSE'}
+                  {m.role === 'user' ? '// TACTICAL_INPUT' : '// STRATEGIC_ANALYSIS'}
                 </span>
-                <span className="text-[9px] font-mono italic underline uppercase">Hash: {Math.random().toString(36).substring(7)}</span>
+                <span className="text-[9px] font-mono italic">SYNC_STABLE</span>
               </div>
-              <p className="text-2xl leading-[1.6] whitespace-pre-wrap font-medium tracking-tight text-gray-200">{m.content}</p>
+              <p className="text-3xl leading-relaxed whitespace-pre-wrap font-medium tracking-tight text-gray-200">{m.content}</p>
             </div>
           </div>
         ))}
         {isLoading && (
-          <div className="p-10 border-l-2 border-[#00FF41]/20 bg-[#00FF41]/5 w-full">
+          <div className="p-12 border-l-4 border-[#00FF41]/20 bg-[#00FF41]/5">
             <span className="text-xs uppercase tracking-[1em] animate-pulse text-[#00FF41]">Analyzing_Logic_Flow...</span>
           </div>
         )}
       </div>
 
-      {/* COMMAND CONSOLE (Input) */}
-      <div className="fixed bottom-0 left-0 right-0 bg-black border-t border-[#00FF41]/30 shadow-[0_-20px_50px_rgba(0,0,0,0.9)]">
+      {/* COMMAND CONSOLE (BOTTOM - PROJECT 47 STYLE) */}
+      <div className="fixed bottom-0 left-0 right-0 bg-black border-t-2 border-[#00FF41]/30 shadow-[0_-30px_60px_rgba(0,0,0,0.95)]">
         <form onSubmit={onSubmit}>
           <textarea 
             value={input} 
             onChange={handleInputChange} 
-            className="w-full bg-black p-10 text-2xl outline-none min-h-[250px] border-none focus:ring-0 text-[#00FF41] placeholder:text-emerald-950 resize-none font-medium leading-relaxed" 
-            placeholder="[ ENTER DATA FOR ANALYSIS... ]" 
+            className="w-full bg-black p-12 text-3xl outline-none min-h-[300px] border-none focus:ring-0 text-[#00FF41] placeholder:text-emerald-950 resize-none font-medium" 
+            placeholder="[ ENTER DATA FOR STRATEGIC SCAN... ]" 
           />
-          <div className="p-6 border-t border-[#00FF41]/10 flex justify-between items-center bg-[#050505]">
-            <div className="text-[10px] opacity-20 hidden md:flex gap-12 uppercase tracking-[0.3em] font-bold italic">
-              <span>Sovereign_Architecture: Active</span>
-              <span>Enc: AES_256</span>
-              <span>Layer: Strategic_197</span>
+          <div className="p-6 border-t border-[#00FF41]/10 flex justify-between items-center bg-[#030303]">
+            <div className="text-[10px] opacity-20 hidden md:flex gap-16 uppercase tracking-[0.4em] font-black italic">
+              <span>Sovereign_Protocol: ON</span>
+              <span>Enc: AES_256_PRO</span>
+              <span>Layer: Strategic_197_Logic</span>
             </div>
-            <div className="flex gap-8 w-full md:w-auto">
+            <div className="flex gap-10 w-full md:w-auto">
               <button 
                 type="button" 
-                onClick={handleReset} 
-                className="px-10 py-4 border border-[#00FF41]/20 text-[#00FF41]/30 hover:text-[#00FF41] hover:border-[#00FF41] transition-all text-xs uppercase font-black tracking-widest"
+                onClick={() => window.location.reload()} 
+                className="px-12 py-5 border border-[#00FF41]/20 text-[#00FF41]/30 hover:text-[#00FF41] hover:border-[#00FF41] transition-all text-xs uppercase font-black tracking-widest"
               >
-                Reset_Scanner
+                Reset
               </button>
               <button 
                 type="submit" 
                 disabled={isLoading || (!started && !businessName)} 
-                className="flex-1 md:flex-none bg-[#00FF41] text-black font-black px-24 py-5 hover:bg-white transition-all text-sm uppercase tracking-[0.5em] shadow-[0_0_40px_rgba(0,255,65,0.4)] active:scale-95"
+                className="flex-1 md:flex-none bg-[#00FF41] text-black font-black px-28 py-6 hover:bg-white transition-all text-sm uppercase tracking-[0.6em] shadow-[0_0_50px_rgba(0,255,65,0.4)]"
               >
-                {isLoading ? 'ANALYZING' : 'EXECUTE'}
+                {isLoading ? 'SCANNING' : 'EXECUTE'}
               </button>
             </div>
           </div>
