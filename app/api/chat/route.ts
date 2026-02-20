@@ -1,7 +1,7 @@
+import OpenAI from 'openai';
 import { OpenAIStream, StreamingTextResponse } from 'ai';
-import Configuration from 'openai';
 
-const openai = new Configuration({
+const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
@@ -29,6 +29,7 @@ export async function POST(req: Request) {
     ],
   });
 
-  const stream = OpenAIStream(response);
+  // Преобразуваме отговора в съвместим стрийм
+  const stream = OpenAIStream(response as any);
   return new StreamingTextResponse(stream);
 }
