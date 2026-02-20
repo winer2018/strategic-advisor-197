@@ -50,12 +50,12 @@ export default function Home() {
           <div style={{ opacity: 0.05, fontSize: '150px', fontWeight: '900', textAlign: 'center', marginTop: '100px', pointerEvents: 'none', letterSpacing: '0.3em' }}>SCANNER</div>
         )}
         {messages.map((msg, i) => (
-          <div key={i} style={{ marginBottom: '80px', borderLeft: '4px solid #00FF41', paddingLeft: '40px', background: 'rgba(0,255,65,0.02)', padding: '40px' }}>
+          <div key={i} style={{ marginBottom: '80px', borderLeft: '4px solid #00FF41', padding: '40px', background: 'rgba(0,255,65,0.02)' }}>
             <div style={{ fontSize: '10px', opacity: 0.4, marginBottom: '20px', letterSpacing: '0.5em', textTransform: 'uppercase' }}>{msg.role === 'user' ? '// TACTICAL_INPUT' : '// STRATEGIC_ANALYSIS'}</div>
             <div style={{ fontSize: '32px', lineHeight: '1.4', color: '#FFF', fontWeight: '500' }}>{msg.content}</div>
           </div>
         ))}
-        {isLoading && <div style={{ color: '#00FF41', fontSize: '14px', letterSpacing: '1em', animate: 'pulse 1s infinite' }}>PROCESSING_LOGIC...</div>}
+        {isLoading && <div style={{ color: '#00FF41', fontSize: '14px', letterSpacing: '1em' }}>PROCESSING_LOGIC...</div>}
       </div>
 
       {/* COMMAND CONSOLE (FIXED BOTTOM - FULL WIDTH) */}
@@ -75,14 +75,6 @@ export default function Home() {
           </div>
         </form>
       </div>
-
-      <style jsx global>{`
-        body { margin: 0; background: black; overflow-x: hidden; }
-        ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-track { background: #000; }
-        ::-webkit-scrollbar-thumb { background: #00FF41; }
-        input::placeholder, textarea::placeholder { color: #003300 !important; }
-      `}</style>
     </div>
   );
 }
