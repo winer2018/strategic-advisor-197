@@ -8,15 +8,6 @@ import {
 import { 
   useChat 
 } from 'ai/react'
-import { 
-  Loader2, 
-  Trash2, 
-  Shield, 
-  Zap, 
-  Terminal, 
-  Lock, 
-  Cpu 
-} from 'lucide-react'
 
 export default function HomePage() {
   const [bn, setBn] = useState('')
@@ -62,10 +53,10 @@ export default function HomePage() {
             ПАКЕТ 197: <span className="text-green-500">STRATEGIC ADVISOR</span>
           </h1>
         </div>
-        <div className="hidden lg:flex gap-10 text-[9px] tracking-[0.5em] font-bold text-white/20 items-center">
-          <span className="flex items-center gap-2"><Lock className="w-3 h-3 text-green-900" /> Secure Assets</span>
-          <span className="flex items-center gap-2"><Cpu className="w-3 h-3 text-green-900" /> Neural_Core_v4</span>
-          <span className="flex items-center gap-2"><Shield className="w-3 h-3 text-green-900" /> Sovereign</span>
+        <div className="hidden lg:flex gap-10 text-[9px] tracking-[0.5em] font-bold text-white/20 items-center uppercase">
+          <span>{'>'} Secure_Assets</span>
+          <span>{'>'} Neural_Core_v4</span>
+          <span>{'>'} Sovereign_Arch</span>
         </div>
       </div>
 
@@ -86,7 +77,7 @@ export default function HomePage() {
         <div ref={scrollRef} className="flex-1 overflow-y-auto p-8 md:p-20 space-y-16 scroll-smooth bg-[radial-gradient(circle_at_center,rgba(34,197,94,0.02),transparent)]">
           {messages.length === 0 && !st && (
             <div className="h-full flex flex-col items-center justify-center opacity-5 select-none animate-pulse">
-              <Zap className="w-32 h-32 mb-10 text-green-500" />
+              <svg width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="mb-10 text-green-500"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
               <p className="text-4xl font-black tracking-[1.5em] italic text-center underline underline-offset-[20px]">Ready_For_Execution</p>
             </div>
           )}
@@ -103,8 +94,8 @@ export default function HomePage() {
             </div>
           ))}
           {isLoading && (
-            <div className="max-w-6xl mx-auto flex items-center gap-6 text-green-500 p-12 animate-pulse border border-green-500/10 bg-green-500/5 shadow-[0_0_30px_rgba(34,197,94,0.05)]">
-              <Loader2 className="w-6 h-6 animate-spin" />
+            <div className="max-w-6xl mx-auto flex items-center gap-6 text-green-500 p-12 animate-pulse border border-green-500/10 bg-green-500/5">
+              <div className="w-4 h-4 border-2 border-green-500 border-t-transparent rounded-full animate-spin" />
               <span className="text-xs tracking-[1.2em] font-black italic uppercase">Scanning_Logic_Architecture...</span>
             </div>
           )}
@@ -118,10 +109,10 @@ export default function HomePage() {
               </div>
               <div className="flex flex-col sm:flex-row gap-6">
                 <button type="submit" disabled={isLoading || (!st && !bn)} className="flex-1 h-20 bg-white text-black font-black tracking-[0.6em] text-lg hover:bg-green-500 transition-all duration-500 disabled:opacity-5 flex items-center justify-center gap-6 group relative overflow-hidden shadow-[0_0_40px_rgba(255,255,255,0.1)]">
-                  <span className="relative z-10 flex items-center gap-6 uppercase">{isLoading ? <Loader2 className="w-8 h-8 animate-spin text-black" /> : <Zap className="w-6 h-6 group-hover:scale-125 transition-transform" />}EXECUTE_SCAN</span>
+                  <span className="relative z-10 flex items-center gap-6 uppercase tracking-[0.2em]">{isLoading ? 'PROCESSING...' : 'EXECUTE_STRATEGIC_SCAN'}</span>
                   <div className="absolute inset-0 bg-green-500 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
                 </button>
-                <button type="button" onClick={()=>window.location.reload()} className="h-20 px-12 border border-white/10 text-white/20 hover:text-red-500 hover:border-red-500/50 transition-all duration-300 flex items-center justify-center gap-4 uppercase text-[11px] font-black tracking-[0.5em]"><Trash2 className="w-5 h-5" />Reboot</button>
+                <button type="button" onClick={()=>window.location.reload()} className="h-20 px-12 border border-white/10 text-white/20 hover:text-red-500 hover:border-red-500/50 transition-all duration-300 flex items-center justify-center gap-4 uppercase text-[11px] font-black tracking-[0.5em]">Reboot_System</button>
               </div>
             </form>
             <div className="flex justify-between items-center text-[8px] tracking-[1em] font-black text-white/5 uppercase">
