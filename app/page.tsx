@@ -60,7 +60,7 @@ export default function HomePage() {
           {messages.map((m, i) => m.role !== 'user' && (
             <div key={i} style={{ borderLeft: '4px solid #00FF41', padding: '30px', background: 'rgba(0, 255, 65, 0.05)', borderRadius: '0 12px 12px 0' }}>
               <div style={{ color: '#00FF41', fontSize: '10px', fontWeight: 'bold', marginBottom: '20px', letterSpacing: '2px' }}>// СТРАТЕГИЧЕСКИ РЕЗУЛТАТ 197</div>
-              <div style={{ fontSize: '19px', lineHeight: '1.8', color: '#eee', whiteSpace: 'pre-line', tracking: 'tight' }}>{m.content}</div>
+              <div style={{ fontSize: '19px', lineHeight: '1.8', color: '#eee', whiteSpace: 'pre-line' }}>{m.content}</div>
             </div>
           ))}
         </div>
