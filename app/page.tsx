@@ -21,89 +21,63 @@ export default function HomePage() {
   }
 
   const clearAll = () => {
-    setMessages([])
-    setBn('')
-    setInd('')
-    setStarted(false)
+    setMessages([]); setBn(''); setInd(''); setStarted(false);
     window.location.reload()
   }
 
   return (
-    <main className="min-h-screen bg-[#050505] text-white font-mono selection:bg-green-500/30 uppercase">
-      <div className="max-w-4xl mx-auto px-6 py-12">
+    <main style={{ backgroundColor: '#050505', minHeight: '100vh', color: 'white', fontFamily: 'monospace', padding: '60px 20px', textTransform: 'uppercase' }}>
+      <div style={{ maxWidth: '900px', margin: '0 auto' }}>
         
-        {/* HEADER: ORIGINAL P47 */}
-        <div className="mb-12 text-center relative">
-          <h1 className="text-4xl md:text-5xl font-black tracking-tighter mb-2 bg-gradient-to-b from-white to-gray-500 bg-clip-text text-transparent italic">
+        {/* HEADER */}
+        <div style={{ textAlign: 'center', marginBottom: '60px' }}>
+          <h1 style={{ fontSize: '48px', fontWeight: '900', letterSpacing: '-2px', marginBottom: '10px', fontStyle: 'italic', background: 'linear-gradient(to bottom, #fff, #666)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
             ПАКЕТ 197: STRATEGIC ADVISOR
           </h1>
-          <div className="text-green-500 text-xs tracking-[0.3em] font-bold">Sovereign Architecture Analysis</div>
+          <div style={{ color: '#00FF41', fontSize: '12px', fontWeight: 'bold', letterSpacing: '4px' }}>Sovereign Architecture Analysis</div>
         </div>
 
-        {/* INPUTS: P197 LOGIC */}
+        {/* INPUTS */}
         {!started && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-            <div className="bg-[#0a0a0a] border border-white/10 rounded-xl overflow-hidden p-4">
-               <label className="text-[9px] text-white/30 mb-2 block tracking-widest italic">/ Business_Name</label>
-               <input type="text" value={bn} onChange={(e) => setBn(e.target.value)} placeholder="ENTER NAME..." className="bg-transparent w-full text-green-50 outline-none font-bold placeholder:text-white/5" />
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '30px' }}>
+            <div style={{ background: '#0a0a0a', border: '1px solid #333', borderRadius: '12px', padding: '20px' }}>
+              <div style={{ fontSize: '10px', color: '#666', marginBottom: '8px', letterSpacing: '2px' }}>/ Business_Name</div>
+              <input type="text" value={bn} onChange={(e) => setBn(e.target.value)} placeholder="ENTER NAME..." style={{ background: 'transparent', border: 'none', color: '#00FF41', width: '100%', fontSize: '18px', fontWeight: 'bold', outline: 'none' }} />
             </div>
-            <div className="bg-[#0a0a0a] border border-white/10 rounded-xl overflow-hidden p-4">
-               <label className="text-[9px] text-white/30 mb-2 block tracking-widest italic">/ Industry_Sector</label>
-               <input type="text" value={ind} onChange={(e) => setInd(e.target.value)} placeholder="ENTER SECTOR..." className="bg-transparent w-full text-green-50 outline-none font-bold placeholder:text-white/5" />
+            <div style={{ background: '#0a0a0a', border: '1px solid #333', borderRadius: '12px', padding: '20px' }}>
+              <div style={{ fontSize: '10px', color: '#666', marginBottom: '8px', letterSpacing: '2px' }}>/ Industry_Sector</div>
+              <input type="text" value={ind} onChange={(e) => setInd(e.target.value)} placeholder="ENTER SECTOR..." style={{ background: 'transparent', border: 'none', color: '#00FF41', width: '100%', fontSize: '18px', fontWeight: 'bold', outline: 'none' }} />
             </div>
           </div>
         )}
 
-        {/* TEXTAREA: P47 STYLE */}
-        <div className="relative group mb-6">
-          <div className="absolute -inset-1 bg-gradient-to-r from-green-500/20 to-cyan-500/20 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
-          <div className="relative bg-[#0a0a0a] border border-white/10 rounded-xl overflow-hidden shadow-2xl">
-            <textarea
-              value={input}
-              onChange={handleInputChange}
-              placeholder="ВЪВЕДЕТЕ КАЗУС ЗА АНАЛИЗ (ROI, БИЗНЕС ЛОГИКА, АКТИВИ)..."
-              className="w-full h-48 bg-transparent p-6 text-green-50 focus:outline-none resize-none placeholder:text-white/10 text-sm leading-relaxed font-bold"
-            />
-          </div>
+        {/* TERMINAL TEXTAREA */}
+        <div style={{ position: 'relative', marginBottom: '30px', background: '#0a0a0a', border: '1px solid #333', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 20px 50px rgba(0,0,0,0.5)' }}>
+          <textarea
+            value={input}
+            onChange={handleInputChange}
+            placeholder="ВЪВЕДЕТЕ КАЗУС ЗА АНАЛИЗ (ROI, БИЗНЕС ЛОГИКА, АКТИВИ)..."
+            style={{ width: '100%', height: '200px', background: 'transparent', border: 'none', padding: '25px', color: '#00FF41', fontSize: '16px', outline: 'none', resize: 'none', lineHeight: '1.6' }}
+          />
         </div>
 
-        {/* BUTTONS: P47 STYLE */}
-        <div className="flex flex-col sm:flex-row gap-4 mb-12">
-          <form onSubmit={runAudit} className="flex-1 flex gap-4">
-            <button
-              type="submit"
-              disabled={isLoading || !bn}
-              className="flex-1 h-14 bg-white text-black font-black tracking-widest text-sm hover:bg-green-500 transition-all duration-300 disabled:opacity-50 flex items-center justify-center gap-3"
-            >
-              {isLoading ? (
-                <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin" />
-              ) : (
-                'СТАРТИРАЙ СКАНИРАНЕ'
-              )}
+        {/* ACTIONS */}
+        <div style={{ display: 'flex', gap: '20px', marginBottom: '60px' }}>
+          <form onSubmit={runAudit} style={{ flex: 1 }}>
+            <button type="submit" disabled={isLoading || !bn} style={{ width: '100%', height: '60px', background: 'white', color: 'black', border: 'none', borderRadius: '4px', fontWeight: '900', fontSize: '14px', letterSpacing: '2px', cursor: 'pointer', opacity: (isLoading || !bn) ? 0.5 : 1 }}>
+              {isLoading ? 'SCANNING_IN_PROGRESS...' : 'СТАРТИРАЙ СКАНИРАНЕ'}
             </button>
           </form>
-          
-          <button
-            onClick={clearAll}
-            className="h-14 px-8 border border-white/10 hover:border-red-500/50 hover:text-red-500 transition-all duration-300 flex items-center justify-center gap-2 font-black text-xs"
-          >
-            ИЗЧИСТИ
-          </button>
+          <button onClick={clearAll} style={{ padding: '0 30px', background: 'transparent', border: '1px solid #333', color: '#666', borderRadius: '4px', cursor: 'pointer', fontSize: '12px', fontWeight: 'bold' }}>ИЗЧИСТИ</button>
         </div>
 
-        {/* RESULTS: P47 STYLE */}
-        <div className="space-y-8 animate-in fade-in duration-500">
-          {messages.map((m, i) => (
-            m.role !== 'user' && (
-              <div key={i} className="grid gap-6">
-                <div className="border-l-4 border-green-500 pl-6 py-4 bg-green-500/5 rounded-r-xl">
-                  <h3 className="text-green-500 text-[10px] font-bold tracking-widest mb-3 opacity-50 uppercase italic">// Стратегически Анализ 197</h3>
-                  <div className="text-white text-lg leading-relaxed whitespace-pre-line font-medium tracking-tight">
-                    {m.content}
-                  </div>
-                </div>
-              </div>
-            )
+        {/* STRATEGIC OUTPUT */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '30px' }}>
+          {messages.map((m, i) => m.role !== 'user' && (
+            <div key={i} style={{ borderLeft: '4px solid #00FF41', padding: '25px', background: 'rgba(0, 255, 65, 0.05)', borderRadius: '0 12px 12px 0' }}>
+              <div style={{ color: '#00FF41', fontSize: '10px', fontWeight: 'bold', marginBottom: '15px', letterSpacing: '2px' }}>// СТРАТЕГИЧЕСКИ АНАЛИЗ 197</div>
+              <div style={{ fontSize: '18px', lineHeight: '1.7', color: '#eee', whiteSpace: 'pre-line' }}>{m.content}</div>
+            </div>
           ))}
         </div>
       </div>
