@@ -25,99 +25,110 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white p-4 md:p-12 font-mono selection:bg-emerald-500/30">
-      <div className="max-w-6xl mx-auto">
+    <div className="min-h-screen bg-black text-[#00FF41] font-mono p-4 md:p-6 selection:bg-[#00FF41]/20">
+      <div className="max-w-[1600px] mx-auto border border-[#00FF41]/20 min-h-[90vh] flex flex-col">
         
-        {/* HEADER SECTION */}
-        <div className="flex flex-col md:flex-row justify-between items-end mb-12 border-b border-emerald-900/30 pb-6">
-          <div>
-            <h1 className="text-3xl font-black tracking-tighter uppercase mb-1">
-              ПАКЕТ 197 <span className="text-emerald-500 italic">/ STRATEGIC ADVISOR</span>
-            </h1>
-            <p className="text-emerald-500/50 text-[10px] tracking-[0.4em] uppercase">Adaptive Intelligence Architecture</p>
+        {/* TOP BAR / SYSTEM INFO */}
+        <div className="border-b border-[#00FF41]/20 p-4 flex justify-between items-center text-[10px] tracking-widest uppercase">
+          <div className="flex gap-6">
+            <span className="font-bold">SYSTEM: STRATEGIC_ADVISOR_197</span>
+            <span className="hidden md:inline text-gray-600">// CORE: v4.0.2</span>
           </div>
-          <div className="text-right mt-4 md:mt-0">
-            <span className="text-[10px] text-gray-600 block uppercase tracking-widest">Status</span>
-            <span className="text-emerald-400 text-xs font-bold animate-pulse uppercase">System Active // 2026</span>
+          <div className="flex gap-4 items-center">
+            <span className="text-gray-600">2026_LOG_ACTIVE</span>
+            <span className="w-2 h-2 bg-[#00FF41] animate-pulse"></span>
           </div>
         </div>
 
-        {/* MAIN CONTEXT INPUTS (Only if not started) */}
-        {!started && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12 animate-in fade-in duration-700">
-            <div className="group">
-              <label className="block text-[10px] text-gray-500 uppercase mb-3 tracking-widest group-focus-within:text-emerald-400 transition-colors">Бизнес Идентификация</label>
+        {/* IDENTITY SCANNER (Inputs) */}
+        {!started ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-0 border-b border-[#00FF41]/20 bg-emerald-950/5">
+            <div className="p-6 border-r border-[#00FF41]/20 group">
+              <span className="text-[10px] block mb-2 opacity-50 tracking-widest uppercase">/ INPUT_BUSINESS_NAME</span>
               <input 
                 type="text" 
-                placeholder="ИМЕ НА КОМПАНИЯТА..." 
                 value={businessName} 
                 onChange={(e) => setBusinessName(e.target.value)} 
-                className="w-full bg-transparent border-b border-gray-800 p-4 text-xl outline-none focus:border-emerald-500 transition-all placeholder:text-gray-800"
+                className="w-full bg-transparent border-none p-0 text-2xl uppercase focus:ring-0 outline-none text-[#00FF41] placeholder:text-emerald-900" 
+                placeholder="ENTER_NAME..." 
               />
             </div>
-            <div className="group">
-              <label className="block text-[10px] text-gray-500 uppercase mb-3 tracking-widest group-focus-within:text-emerald-400 transition-colors">Индустриален Сектор</label>
+            <div className="p-6 group">
+              <span className="text-[10px] block mb-2 opacity-50 tracking-widest uppercase">/ INPUT_INDUSTRY_SECTOR</span>
               <input 
                 type="text" 
-                placeholder="СФЕРА НА ДЕЙНОСТ..." 
                 value={industry} 
                 onChange={(e) => setIndustry(e.target.value)} 
-                className="w-full bg-transparent border-b border-gray-800 p-4 text-xl outline-none focus:border-emerald-500 transition-all placeholder:text-gray-800"
+                className="w-full bg-transparent border-none p-0 text-2xl uppercase focus:ring-0 outline-none text-[#00FF41] placeholder:text-emerald-900" 
+                placeholder="ENTER_SECTOR..." 
               />
             </div>
           </div>
+        ) : (
+          <div className="p-3 bg-[#00FF41]/5 border-b border-[#00FF41]/20 px-6 flex justify-between items-center text-[10px]">
+            <span className="font-bold">ACTIVE_LOG // {businessName.toUpperCase()} // {industry.toUpperCase()}</span>
+            <span className="text-gray-500 uppercase">Architecture_Layer_Locked</span>
+          </div>
         )}
 
-        {/* CHAT DISPLAY */}
-        <div className="space-y-12 mb-12 min-h-[200px]">
+        {/* DATA ANALYSIS AREA (Chat) */}
+        <div className="flex-1 overflow-y-auto p-6 space-y-8 bg-black/40 scrollbar-hide">
+          {messages.length === 0 && !started && (
+            <div className="h-full flex flex-col items-center justify-center opacity-20 uppercase tracking-[1em] text-center">
+              <p className="text-4xl font-black mb-4">Scanner_Ready</p>
+              <p className="text-[10px]">Waiting for tactical input...</p>
+            </div>
+          )}
           {messages.map(m => (
-            <div key={m.id} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start underline-offset-8'}`}>
-              <div className={`max-w-4xl w-full ${m.role === 'user' ? 'bg-zinc-900/50 p-8 border-r-4 border-emerald-500' : 'p-8 border-l-4 border-emerald-500 bg-emerald-500/5'}`}>
-                <span className="text-[9px] font-bold text-emerald-400 mb-4 block tracking-[0.3em] uppercase opacity-50">
-                  {m.role === 'user' ? '// USER_QUERY' : '// ADVISOR_STRATEGY'}
-                </span>
-                <p className="text-lg leading-relaxed text-gray-200 whitespace-pre-wrap">{m.content}</p>
+            <div key={m.id} className="animate-in fade-in slide-in-from-left duration-300">
+              <div className={`p-6 border ${m.role === 'user' ? 'border-gray-800 bg-gray-900/10' : 'border-[#00FF41]/30 bg-[#00FF41]/5'}`}>
+                <div className="flex justify-between items-center mb-4 border-b border-[#00FF41]/10 pb-2">
+                  <span className="text-[10px] font-bold tracking-widest uppercase">
+                    {m.role === 'user' ? '> ACCESS_REQUEST' : '> ADVISOR_STRATEGY'}
+                  </span>
+                  <span className="text-[9px] opacity-30 font-mono italic">Timestamp: {new Date().toLocaleTimeString()}</span>
+                </div>
+                <p className="text-lg leading-relaxed whitespace-pre-wrap font-light">{m.content}</p>
               </div>
             </div>
           ))}
           {isLoading && (
-            <div className="flex justify-start animate-pulse">
-              <div className="p-8 border-l-4 border-emerald-800 bg-emerald-900/5">
-                <span className="text-[10px] text-emerald-700 tracking-widest uppercase">Scanning Architecture...</span>
-              </div>
+            <div className="flex items-center gap-4 p-6 border border-[#00FF41]/20 bg-[#00FF41]/5">
+              <span className="w-2 h-2 bg-[#00FF41] animate-ping"></span>
+              <span className="text-xs uppercase tracking-[0.5em] animate-pulse">Processing_Neural_Logic...</span>
             </div>
           )}
         </div>
 
-        {/* INPUT AREA - HUGE TEXTAREA */}
-        <form onSubmit={onSubmit} className="sticky bottom-12 bg-[#050505] pt-4">
-          <div className="relative border border-gray-800 focus-within:border-emerald-500 transition-all bg-black/50 shadow-2xl">
-            <textarea 
-              value={input} 
-              onChange={handleInputChange} 
-              className="w-full bg-transparent p-8 text-xl outline-none min-h-[250px] resize-y placeholder:text-gray-800" 
-              placeholder="ОПИШЕТЕ КАЗУСА В ДЕТАЙЛИ... (ROI, ПРОБЛЕМИ, ЦЕЛИ)" 
-            />
-            <div className="p-4 border-t border-gray-900 flex flex-col md:flex-row gap-4 justify-between items-center">
-              <p className="text-[9px] text-gray-600 uppercase tracking-widest hidden md:block">
-                {started ? `ACTIVE: ${businessName} // ${industry}` : "Waiting for context..."}
-              </p>
-              <div className="flex gap-4 w-full md:w-auto">
-                <button 
-                  type="button" 
-                  onClick={handleClear} 
-                  className="px-6 py-3 border border-gray-800 text-gray-600 hover:text-white hover:border-white transition-all text-xs uppercase"
-                >
-                  Clear
-                </button>
-                <button 
-                  type="submit" 
-                  disabled={isLoading || (!started && !businessName)} 
-                  className="flex-1 md:flex-none bg-emerald-500 hover:bg-emerald-400 text-black font-black px-12 py-3 transition-all text-xs uppercase tracking-[0.2em] disabled:opacity-20"
-                >
-                  {isLoading ? 'Processing...' : 'Execute Analysis'}
-                </button>
-              </div>
+        {/* TACTICAL INPUT (Textarea) */}
+        <form onSubmit={onSubmit} className="border-t border-[#00FF41]/20 p-0 bg-black">
+          <textarea 
+            value={input} 
+            onChange={handleInputChange} 
+            className="w-full bg-black p-8 text-xl outline-none min-h-[300px] border-none focus:ring-0 text-[#00FF41] placeholder:text-emerald-950 resize-none font-light" 
+            placeholder="[ ENTER_TACTICAL_DATA_HERE ]" 
+          />
+          <div className="border-t border-[#00FF41]/10 p-4 flex flex-col md:flex-row gap-4 items-center bg-black">
+            <div className="text-[9px] opacity-30 flex gap-4 uppercase tracking-widest flex-1">
+              <span>Memory: Optimized</span>
+              <span>Encryption: Sovereign</span>
+              <span>Layer: Strategy</span>
+            </div>
+            <div className="flex gap-4 w-full md:w-auto">
+              <button 
+                type="button" 
+                onClick={handleClear} 
+                className="px-8 py-3 border border-[#00FF41]/20 text-[#00FF41]/40 hover:text-[#00FF41] hover:border-[#00FF41] transition-all text-xs uppercase font-bold tracking-widest"
+              >
+                Reset
+              </button>
+              <button 
+                type="submit" 
+                disabled={isLoading || (!started && !businessName)} 
+                className="flex-1 md:flex-none bg-[#00FF41] text-black font-black px-16 py-3 hover:bg-[#00FF41]/80 transition-all text-xs uppercase tracking-[0.3em] shadow-[0_0_20px_rgba(0,255,65,0.2)]"
+              >
+                {isLoading ? 'ANALYZING...' : 'EXECUTE'}
+              </button>
             </div>
           </div>
         </form>
