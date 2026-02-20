@@ -6,12 +6,11 @@ import { useState } from 'react';
 export default function Home() {
   const [businessName, setBusinessName] = useState('');
   const [industry, setIndustry] = useState('');
-  const [revenue, setRevenue] = useState('');
   const [started, setStarted] = useState(false);
   
-  const { messages, input, handleInputChange, handleSubmit, isLoading, setMessages } = useChat({
+  const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat({
     api: '/api/chat',
-    body: { businessName, industry, revenue },
+    body: { businessName, industry },
   });
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -21,77 +20,39 @@ export default function Home() {
     handleSubmit(e);
   };
 
-  const handleClear = () => {
-    setMessages([]);
-    setStarted(false);
-    setBusinessName('');
-    setIndustry('');
-    setRevenue('');
-    // Премахнато setInput, за да се избегне грешката в билда
-    window.location.reload(); 
-  };
-
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white flex flex-col items-center justify-center p-8 font-mono text-center">
-      <div className="mb-10">
+    <div className="min-h-screen bg-[#0a0a0a] text-white flex flex-col items-center justify-center p-8 font-mono">
+      <div className="text-center mb-10">
         <h1 className="text-4xl font-bold tracking-tighter uppercase">
-          ПАКЕТ 197: <span className="text-emerald-400 italic text-5xl">STRATEGIC ADVISOR</span>
+          ПАКЕТ 197: <span className="text-emerald-400 italic">STRATEGIC ADVISOR</span>
         </h1>
-        <p className="text-gray-500 text-[10px] tracking-[0.5em] mt-2 uppercase text-center">Sovereign Architecture Analysis Layer</p>
       </div>
 
-      <div className="w-full max-w-4xl bg-[#111] border border-gray-800 rounded shadow-2xl overflow-hidden text-left">
+      <div className="w-full max-w-4xl bg-[#111] border border-gray-800 rounded shadow-2xl overflow-hidden">
         {!started ? (
-          <div className="p-8 space-y-6 border-b border-gray-800">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="flex flex-col gap-2">
-                <span className="text-[10px] text-emerald-400 uppercase font-bold tracking-widest">Бизнес Име</span>
-                <input type="text" placeholder="Име на компания..." value={businessName} onChange={(e) => setBusinessName(e.target.value)} className="bg-black border border-gray-800 p-4 rounded text-xs focus:border-emerald-500 outline-none" />
-              </div>
-              <div className="flex flex-col gap-2">
-                <span className="text-[10px] text-emerald-400 uppercase font-bold tracking-widest">Индустрия</span>
-                <input type="text" placeholder="Сектор..." value={industry} onChange={(e) => setIndustry(e.target.value)} className="bg-black border border-gray-800 p-4 rounded text-xs focus:border-emerald-500 outline-none" />
-              </div>
-            </div>
+          <div className="p-8 grid grid-cols-2 gap-6 border-b border-gray-800">
+            <input type="text" placeholder="БИЗНЕС ИМЕ" value={businessName} onChange={(e) => setBusinessName(e.target.value)} className="bg-black border border-gray-800 p-4 rounded text-xs outline-none focus:border-emerald-500" />
+            <input type="text" placeholder="ИНДУСТРИЯ" value={industry} onChange={(e) => setIndustry(e.target.value)} className="bg-black border border-gray-800 p-4 rounded text-xs outline-none focus:border-emerald-500" />
           </div>
         ) : (
-          <div className="p-4 bg-emerald-500/5 border-b border-gray-800 text-[10px] text-emerald-400 flex justify-between px-8 items-center">
-            <span className="font-bold tracking-widest">ACTIVE SESSION: {businessName.toUpperCase()}</span>
-            <span className="animate-pulse">● ADAPTIVE LAYER LIVE</span>
+          <div className="p-4 bg-emerald-500/5 border-b border-gray-800 text-[10px] text-emerald-400 px-8">
+            ACTIVE SESSION: {businessName.toUpperCase()}
           </div>
         )}
 
-        <div className="h-[420px] overflow-y-auto p-8 space-y-6 text-sm border-b border-gray-800 bg-black/20">
-          {messages.length === 0 && !started && (
-            <div className="h-full flex items-center justify-center text-gray-700 italic text-xs uppercase tracking-widest text-center">
-              System Ready. Please define the business case below.
-            </div>
-          )}
+        <div className="h-[400px] overflow-y-auto p-8 space-y-6 text-sm">
           {messages.map(m => (
-            <div key={m.id} className={`border-l-2 p-4 ${m.role === 'user' ? 'border-gray-700 bg-white/5' : 'border-emerald-500 bg-emerald-500/5'}`}>
-              <span className="text-[9px] font-bold text-emerald-400 mb-2 block tracking-widest uppercase italic">
-                {m.role === 'user' ? '> ЗАПИТВАНЕ' : '> АНАЛИЗ СТРАТЕГ'}
-              </span>
-              <p className="text-gray-300 leading-relaxed whitespace-pre-wrap">{m.content}</p>
+            <div key={m.id} className={`border-l-2 p-4 ${m.role === 'user' ? 'border-gray-700' : 'border-emerald-500 bg-emerald-500/5'}`}>
+              <p className="text-gray-300 whitespace-pre-wrap">{m.content}</p>
             </div>
           ))}
         </div>
 
         <form onSubmit={onSubmit} className="p-8 bg-black/40">
-          <textarea 
-            value={input} 
-            onChange={handleInputChange} 
-            className="w-full bg-black border border-gray-800 p-4 rounded text-white mb-6 focus:border-emerald-500 outline-none min-h-[100px] text-xs transition-all" 
-            placeholder="Опишете ситуацията..." 
-          />
-          <div className="flex gap-4">
-            <button type="submit" disabled={isLoading || (!started && !businessName)} className="flex-1 bg-white text-black font-bold py-4 rounded hover:bg-emerald-400 transition-all text-xs uppercase tracking-widest active:scale-[0.98]">
-              СТАРТИРАЙ АНАЛИЗ
-            </button>
-            <button type="button" onClick={handleClear} className="px-8 border border-gray-800 text-gray-500 hover:text-white transition-all text-[10px] uppercase font-bold tracking-widest">
-              ИЗЧИСТИ
-            </button>
-          </div>
+          <textarea value={input} onChange={handleInputChange} className="w-full bg-black border border-gray-800 p-4 rounded text-white mb-6 outline-none text-xs min-h-[80px]" placeholder="Опишете казуса..." />
+          <button type="submit" disabled={isLoading} className="w-full bg-white text-black font-bold py-4 rounded hover:bg-emerald-400 transition-all text-xs uppercase tracking-widest">
+            {isLoading ? 'АНАЛИЗИРАМ...' : 'СТАРТИРАЙ АНАЛИЗ'}
+          </button>
         </form>
       </div>
     </div>
