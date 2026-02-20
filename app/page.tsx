@@ -9,8 +9,7 @@ export default function Home() {
   const [revenue, setRevenue] = useState('');
   const [started, setStarted] = useState(false);
   
-  // ФИКС: Внимателно провери дали setInput е тук (ред 13)
-  const { messages, input, setInput, handleInputChange, handleSubmit, isLoading, setMessages } = useChat({
+  const { messages, input, handleInputChange, handleSubmit, isLoading, setMessages } = useChat({
     api: '/api/chat',
     body: { businessName, industry, revenue },
   });
@@ -24,7 +23,6 @@ export default function Home() {
 
   const handleClear = () => {
     setMessages([]);
-    setInput('');
     setStarted(false);
     setBusinessName('');
     setIndustry('');
@@ -56,7 +54,7 @@ export default function Home() {
           </div>
         ) : (
           <div className="p-4 bg-emerald-500/5 border-b border-gray-800 text-[10px] text-emerald-400 flex justify-between px-8 items-center">
-            <span className="font-bold tracking-widest uppercase text-left">ACTIVE SESSION: {businessName.toUpperCase()} | {industry.toUpperCase()}</span>
+            <span className="font-bold tracking-widest uppercase">ACTIVE SESSION: {businessName.toUpperCase()} | {industry.toUpperCase()}</span>
             <span className="animate-pulse flex items-center gap-2">● ADAPTIVE LAYER LIVE</span>
           </div>
         )}
@@ -69,20 +67,20 @@ export default function Home() {
           )}
           {messages.map(m => (
             <div key={m.id} className={`border-l-2 p-4 ${m.role === 'user' ? 'border-gray-700 bg-white/5' : 'border-emerald-500 bg-emerald-500/5'}`}>
-              <span className="text-[9px] font-bold text-emerald-400 mb-2 block tracking-widest uppercase italic text-left">
+              <span className="text-[9px] font-bold text-emerald-400 mb-2 block tracking-widest uppercase italic">
                 {m.role === 'user' ? '> ЗАПИТВАНЕ' : '> АНАЛИЗ СТРАТЕГ'}
               </span>
-              <p className="text-gray-300 leading-relaxed whitespace-pre-wrap text-left">{m.content}</p>
+              <p className="text-gray-300 leading-relaxed whitespace-pre-wrap">{m.content}</p>
             </div>
           ))}
-          {isLoading && <div className="animate-pulse text-emerald-400 text-[10px] uppercase tracking-[0.3em] text-left">Processing Logic...</div>}
+          {isLoading && <div className="animate-pulse text-emerald-400 text-[10px] uppercase tracking-[0.3em]">Processing Logic...</div>}
         </div>
 
         <form onSubmit={onSubmit} className="p-8 bg-black/40">
           <textarea 
             value={input} 
             onChange={handleInputChange} 
-            className="w-full bg-black border border-gray-800 p-4 rounded text-white mb-6 focus:border-emerald-500 outline-none min-h-[100px] text-xs transition-all text-left" 
+            className="w-full bg-black border border-gray-800 p-4 rounded text-white mb-6 focus:border-emerald-500 outline-none min-h-[100px] text-xs transition-all" 
             placeholder="Опишете вашия казус за анализ..." 
           />
           <div className="flex flex-col md:flex-row gap-4">
