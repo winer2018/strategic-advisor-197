@@ -2,79 +2,157 @@
 
 import { useChat } from 'ai/react';
 import { useState, useEffect } from 'react';
+import { Search, Loader2, Trash2, Shield, Activity, Zap } from 'lucide-react';
 
-export default function Home() {
-  const [bn, setBn] = useState('');
-  const [ind, setInd] = useState('');
-  const [st, setSt] = useState(false);
-  const [m, setM] = useState(false);
+export default function HomePage() {
+  const [businessName, setBusinessName] = useState('');
+  const [industry, setIndustry] = useState('');
+  const [started, setStarted] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
-  useEffect(() => { setM(true); }, []);
-  
-  const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat({
+  useEffect(() => { setMounted(true); }, []);
+
+  const { messages, input, handleInputChange, handleSubmit, isLoading, setMessages } = useChat({
     api: '/api/chat',
-    body: { businessName: bn, industry: ind },
+    body: { businessName, industry },
   });
 
-  if (!m) return null;
+  const onExecute = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!started && (!businessName || !industry)) return;
+    if (!started) setStarted(true);
+    handleSubmit(e);
+  };
+
+  const clearAll = () => {
+    setMessages([]);
+    setStarted(false);
+    setBusinessName('');
+    setIndustry('');
+    window.location.reload();
+  };
+
+  if (!mounted) return <div className="min-h-screen bg-[#050505]" />;
 
   return (
-    <div style={{ backgroundColor: '#000', color: '#00FF41', minHeight: '100vh', fontFamily: 'monospace', display: 'flex', flexDirection: 'column', margin: '0', padding: '0' }}>
-      
-      {/* SYSTEM TOP BAR */}
-      <div style={{ borderBottom: '1px solid #00FF41', padding: '15px 30px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#050505' }}>
-        <span style={{ fontWeight: '900', letterSpacing: '0.5em', fontSize: '18px' }}>SA_197_SCANNER_v2.0</span>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-          <span style={{ fontSize: '10px', textTransform: 'uppercase', opacity: 0.6 }}>Link_Sovereign_Active</span>
-          <div style={{ width: '10px', height: '10px', background: '#00FF41', borderRadius: '50%', boxShadow: '0 0 10px #00FF41' }}></div>
+    <main className="min-h-screen bg-[#050505] text-white font-mono selection:bg-green-500/30 flex flex-col">
+      {/* HEADER BAR */}
+      <div className="border-b border-white/5 bg-black/50 backdrop-blur-md sticky top-0 z-50 px-6 py-4 flex justify-between items-center">
+        <div className="flex items-center gap-4">
+          <div className="w-2 h-2 bg-green-500 shadow-[0_0_10px_#22c55e] animate-pulse rounded-full" />
+          <h1 className="text-xl font-black tracking-tighter italic uppercase">
+            ПАКЕТ 197: <span className="text-green-500">STRATEGIC ADVISOR</span>
+          </h1>
+        </div>
+        <div className="hidden md:flex items-center gap-6 text-[10px] tracking-[0.3em] font-bold text-white/20 uppercase">
+          <span>Sovereign Architecture</span>
+          <span className="text-green-900">//</span>
+          <span>System Active 2026</span>
         </div>
       </div>
 
-      {/* TACTICAL INPUTS (FULL WIDTH) */}
-      {!st && (
-        <div style={{ display: 'flex', borderBottom: '1px solid #00FF41', background: 'rgba(0,255,65,0.03)' }}>
-          <div style={{ flex: 1, padding: '40px', borderRight: '1px solid #00FF41' }}>
-            <div style={{ fontSize: '10px', opacity: 0.5, marginBottom: '10px', letterSpacing: '0.2em' }}>/ IDENTITY_ENTITY</div>
-            <input type="text" value={bn} onChange={(e) => setBn(e.target.value)} style={{ width: '100%', background: 'transparent', border: 'none', color: '#00FF41', fontSize: '45px', fontWeight: '900', outline: 'none', textTransform: 'uppercase' }} placeholder="ENTER_NAME" />
-          </div>
-          <div style={{ flex: 1, padding: '40px' }}>
-            <div style={{ fontSize: '10px', opacity: 0.5, marginBottom: '10px', letterSpacing: '0.2em' }}>/ INDUSTRY_SECTOR</div>
-            <input type="text" value={ind} onChange={(e) => setInd(e.target.value)} style={{ width: '100%', background: 'transparent', border: 'none', color: '#00FF41', fontSize: '45px', fontWeight: '900', outline: 'none', textTransform: 'uppercase' }} placeholder="ENTER_SECTOR" />
-          </div>
-        </div>
-      )}
-
-      {/* ANALYSIS STREAM (LOG) */}
-      <div style={{ flex: 1, padding: '60px', overflowY: 'auto', paddingBottom: '550px' }}>
-        {messages.length === 0 && !st && (
-          <div style={{ opacity: 0.05, fontSize: '150px', fontWeight: '900', textAlign: 'center', marginTop: '100px', pointerEvents: 'none', letterSpacing: '0.3em' }}>SCANNER</div>
-        )}
-        {messages.map((msg, i) => (
-          <div key={i} style={{ marginBottom: '80px', borderLeft: '4px solid #00FF41', padding: '40px', background: 'rgba(0,255,65,0.02)' }}>
-            <div style={{ fontSize: '10px', opacity: 0.4, marginBottom: '20px', letterSpacing: '0.5em', textTransform: 'uppercase' }}>{msg.role === 'user' ? '// TACTICAL_INPUT' : '// STRATEGIC_ANALYSIS'}</div>
-            <div style={{ fontSize: '32px', lineHeight: '1.4', color: '#FFF', fontWeight: '500' }}>{msg.content}</div>
-          </div>
-        ))}
-        {isLoading && <div style={{ color: '#00FF41', fontSize: '14px', letterSpacing: '1em' }}>PROCESSING_LOGIC...</div>}
-      </div>
-
-      {/* COMMAND CONSOLE (FIXED BOTTOM - FULL WIDTH) */}
-      <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, background: '#000', borderTop: '2px solid #00FF41', zIndex: 100 }}>
-        <form onSubmit={(e) => { e.preventDefault(); if(!st) setSt(true); handleSubmit(e); }}>
-          <textarea 
-            value={input} onChange={handleInputChange} 
-            style={{ width: '100%', background: '#000', color: '#00FF41', padding: '50px', fontSize: '35px', border: 'none', outline: 'none', minHeight: '350px', resize: 'none', fontWeight: 'bold' }} 
-            placeholder="[ ENTER STRATEGIC DATA FOR EXECUTION ]" 
-          />
-          <div style={{ padding: '30px 50px', borderTop: '1px solid #111', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#030303' }}>
-            <div style={{ fontSize: '11px', opacity: 0.3, letterSpacing: '0.5em' }}>PROPRIETARY_SOVEREIGN_OS // AES_256</div>
-            <div style={{ display: 'flex', gap: '40px' }}>
-              <button type="button" onClick={() => window.location.reload()} style={{ background: 'transparent', border: '1px solid #333', color: '#444', padding: '20px 40px', cursor: 'pointer', fontSize: '14px', textTransform: 'uppercase', fontWeight: 'bold' }}>Reset</button>
-              <button type="submit" style={{ background: '#00FF41', color: '#000', border: 'none', padding: '20px 100px', fontSize: '18px', fontWeight: '900', cursor: 'pointer', letterSpacing: '0.5em', boxShadow: '0 0 40px rgba(0,255,65,0.5)' }}>EXECUTE</button>
+      <div className="flex-1 max-w-6xl mx-auto w-full px-6 py-12 flex flex-col">
+        {/* INPUT SECTION */}
+        {!started ? (
+          <div className="space-y-8 animate-in fade-in slide-in-from-top-4 duration-700">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="bg-[#0a0a0a] border border-white/10 p-6 rounded-sm focus-within:border-green-500/50 transition-all">
+                <label className="text-[10px] text-green-500/50 uppercase tracking-widest mb-4 block">Бизнес Идентификация</label>
+                <input 
+                  type="text" 
+                  value={businessName}
+                  onChange={(e) => setBusinessName(e.target.value)}
+                  placeholder="ИМЕ НА КОМПАНИЯ..."
+                  className="w-full bg-transparent text-2xl font-black outline-none uppercase placeholder:text-white/5"
+                />
+              </div>
+              <div className="bg-[#0a0a0a] border border-white/10 p-6 rounded-sm focus-within:border-green-500/50 transition-all">
+                <label className="text-[10px] text-green-500/50 uppercase tracking-widest mb-4 block">Индустриален Сектор</label>
+                <input 
+                  type="text" 
+                  value={industry}
+                  onChange={(e) => setIndustry(e.target.value)}
+                  placeholder="СФЕРА НА ДЕЙНОСТ..."
+                  className="w-full bg-transparent text-2xl font-black outline-none uppercase placeholder:text-white/5"
+                />
+              </div>
             </div>
           </div>
-        </form>
+        ) : (
+          <div className="bg-green-500/5 border border-green-500/20 p-4 mb-8 flex justify-between items-center animate-in fade-in duration-300">
+            <div className="text-[10px] font-bold tracking-widest text-green-500 uppercase">
+              АКТИВЕН СКЕНЕР: {businessName} // {industry}
+            </div>
+            <Activity className="w-4 h-4 text-green-500 animate-pulse" />
+          </div>
+        )}
+
+        {/* MESSAGES / ANALYSIS */}
+        <div className="flex-1 space-y-12 mb-12 min-h-[400px]">
+          {messages.length === 0 && !started && (
+            <div className="h-full flex flex-col items-center justify-center opacity-10 py-32">
+              <Zap className="w-16 h-16 mb-6" />
+              <p className="text-sm tracking-[1em] uppercase">Системата е в готовност</p>
+            </div>
+          )}
+          
+          {messages.map((m, idx) => (
+            <div key={idx} className={`animate-in fade-in slide-in-from-bottom-2 duration-500`}>
+              <div className={`p-8 border-l-2 ${m.role === 'user' ? 'border-white/10 bg-white/[0.02]' : 'border-green-500 bg-green-500/[0.03]'}`}>
+                <div className="flex justify-between items-center mb-6 opacity-30">
+                  <span className="text-[10px] font-bold tracking-[0.4em] uppercase">
+                    {m.role === 'user' ? '> ACCESS_REQUEST' : '> STRATEGIC_ANALYSIS'}
+                  </span>
+                  <span className="text-[9px] italic font-mono">{new Date().toLocaleTimeString()}</span>
+                </div>
+                <div className="text-xl leading-relaxed text-gray-200 whitespace-pre-wrap tracking-tight">
+                  {m.content}
+                </div>
+              </div>
+            </div>
+          ))}
+          {isLoading && (
+            <div className="flex items-center gap-4 text-green-500 p-8 animate-pulse">
+              <Loader2 className="w-5 h-5 animate-spin" />
+              <span className="text-xs uppercase tracking-[0.5em]">Crunching logic...</span>
+            </div>
+          )}
+        </div>
+
+        {/* CONTROL CONSOLE */}
+        <div className="sticky bottom-0 bg-[#050505] pt-6 pb-12">
+          <form onSubmit={onExecute} className="space-y-6">
+            <div className="relative group">
+              <div className="absolute -inset-1 bg-green-500/10 rounded-sm blur opacity-25 group-focus-within:opacity-50 transition duration-1000"></div>
+              <textarea
+                value={input}
+                onChange={handleInputChange}
+                placeholder="ВЪВЕДЕТЕ КАЗУС ЗА АНАЛИЗ (ROI, БИЗНЕС ЛОГИКА, АКТИВИ)..."
+                className="relative w-full h-40 bg-black border border-white/10 p-8 text-xl text-green-50 focus:outline-none focus:border-green-500/50 resize-none placeholder:text-white/5 transition-all"
+              />
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-4">
+              <button
+                type="submit"
+                disabled={isLoading || (!started && !businessName)}
+                className="flex-1 h-16 bg-white text-black font-black uppercase tracking-[0.3em] text-sm hover:bg-green-500 transition-all duration-300 disabled:opacity-10 flex items-center justify-center gap-4 group"
+              >
+                {isLoading ? <Loader2 className="w-6 h-6 animate-spin" /> : <Zap className="w-5 h-5 group-hover:scale-125 transition-all" />}
+                ИЗПЪЛНИ АНАЛИЗ
+              </button>
+              <button
+                type="button"
+                onClick={clearAll}
+                className="h-16 px-10 border border-white/10 text-white/20 hover:text-red-500 hover:border-red-500/50 transition-all duration-300 flex items-center justify-center gap-2 uppercase text-[10px] font-bold tracking-widest"
+              >
+                <Trash2 className="w-4 h-4" />
+                Reset
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
+    </main>
   );
 }
